@@ -1,13 +1,32 @@
-# Sample Hardhat Project
+## Installation
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+Install uniswap-v3-clone with yarn
 
-Try running some of the following tasks:
+```bash
+  get clone git@github.com:AJackTi/uniswap-v3-clone.git && cd uniswap-v3-clone
+  yarn
+```
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
+Run initial hardhat
+
+```bash
+  npx hardhat clean
+  npx hardhat compile
+  npx hardhat node
+```
+
+Run hardhat scripts
+
+```bash
+  npx hardhat run --network localhost scripts/01_deployContracts.js
+  npx hardhat run --network localhost scripts/02_deployTokens.js
+  npx hardhat run --network localhost scripts/03_deployPools.js
+  npx hardhat run --network localhost scripts/04_addLiquidity.js
+  npx hardhat run --network localhost scripts/05_checkLiquidity.js
+```
+
+Run fontend
+
+```bash
+  npm run dev
 ```
