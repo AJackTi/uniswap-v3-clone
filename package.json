@@ -1,13 +1,39 @@
 {
-  "name": "hardhat-project",
+  "name": "uniswap-v3-clone",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next liacnt"
+  },
   "dependencies": {
     "@nomicfoundation/hardhat-ignition": "^0.15.5",
     "@openzeppelin/contracts": "^3.4.2",
     "@uniswap/v3-core": "^1.0.1",
-    "@uniswap/v3-periphery": "^1.4.1",
+    "@uniswap/v3-periphery": "^1.4.3",
     "dotenv": "^16.4.5",
     "ethers": "5.7.2",
-    "hardhat": "^2.11.1"
+    "hardhat": "^2.11.1",
+    "next": "13.3.0",
+    "postcss": "8.4.21",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-ionicons": "^4.2.1",
+    "styled-components": "^6.1.11",
+    "tailwindcss": "3.3.1",
+    "web3modal": "^1.9.9",
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@nomiclabs/hardhat-etherscan": "^3.1.8",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@uniswap/smart-order-router": "^2.5.30",
+    "@uniswap/v3-sdk": "^3.9.0",
+    "autoprefixer": "10.4.14",
+    "axios": "^1.5.0",
+    "bignumber.js": "^9.1.1",
+    "ethereum-waffle": "^3.4.4",
+    "jsbi": "^3.2.5"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-verify": "^2.0.8",
@@ -15,6 +41,7 @@
     "@nomiclabs/hardhat-etherscan": "^3.1.8",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "chai": "^4.3.6",
-    "ethereum-waffle": "^3.4.4"
+    "ethereum-waffle": "^3.4.4",
+    "hardhat-tracer": "^2.6.0"
   }
 }
