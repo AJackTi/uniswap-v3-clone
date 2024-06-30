@@ -1,14 +1,14 @@
 require("dotenv").config();
 
-let TETHER_ADDRESS = process.env.TETHER_ADDRESS;
-let USDC_ADDRESS = process.env.USDC_ADDRESS;
-let WRAPPED_BITCOIN_ADDRESS = process.env.WRAPPED_BITCOIN_ADDRESS;
-let WETH_ADDRESS = process.env.WETH_ADDRESS;
-let FACTORY_ADDRESS = process.env.FACTORY_ADDRESS;
-let SWAP_ROUTER_ADDRESS = process.env.SWAP_ROUTER_ADDRESS;
-let NFT_DESCRIPTOR_ADDRESS = process.env.NFT_DESCRIPTOR_ADDRESS;
-let POSITION_DESCRIPTOR_ADDRESS = process.env.POSITION_DESCRIPTOR_ADDRESS;
-let POSITION_MANAGER_ADDRESS = process.env.POSITION_MANAGER_ADDRESS;
+const TETHER_ADDRESS = process.env.TETHER_ADDRESS;
+const USDC_ADDRESS = process.env.USDC_ADDRESS;
+const WRAPPED_BITCOIN_ADDRESS = process.env.WRAPPED_BITCOIN_ADDRESS;
+const WETH_ADDRESS = process.env.WETH_ADDRESS;
+const FACTORY_ADDRESS = process.env.FACTORY_ADDRESS;
+const SWAP_ROUTER_ADDRESS = process.env.SWAP_ROUTER_ADDRESS;
+const NFT_DESCRIPTOR_ADDRESS = process.env.NFT_DESCRIPTOR_ADDRESS;
+const POSITION_DESCRIPTOR_ADDRESS = process.env.POSITION_DESCRIPTOR_ADDRESS;
+const POSITION_MANAGER_ADDRESS = process.env.POSITION_MANAGER_ADDRESS;
 
 const artifacts = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
@@ -49,11 +49,15 @@ const factory = new Contract(
 async function deployPool(token0, token1, fee, price) {
   const [owner] = await ethers.getSigners();
 
-  await nonfungiblePositionManager
+  const transaction = await nonfungiblePositionManager
     .connect(owner)
     .createAndInitializePoolIfNecessary(token0, token1, fee, price, {
       gasLimit: 5000000,
     });
+
+  console.log("transaction:", transaction?.hash);
+  await transaction.wait();
+
   const poolAddress = await factory.connect(owner).getPool(token0, token1, fee);
   return poolAddress;
 }
@@ -73,6 +77,7 @@ async function main() {
   return writeFile(filePath, data)
     .then(() => {
       console.log("Addresses recorded.");
+      console.log(" ✅ Done");
     })
     .catch((error) => {
       console.error("Error logging addresses:", error);

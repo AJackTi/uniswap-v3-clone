@@ -4,8 +4,6 @@ const WETH9 = require("../Context/WETH9.json");
 const fs = require("fs");
 const { promisify } = require("util");
 
-console.log("---1");
-
 const artifacts = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
   SwapRouter: require("@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json"),
@@ -13,8 +11,8 @@ const artifacts = {
   NonfungibleTokenPositionDescriptor: require("@uniswap/v3-periphery/artifacts/contracts/NonfungibleTokenPositionDescriptor.sol/NonfungibleTokenPositionDescriptor.json"),
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
   WETH9,
+  UserStorageData: require("../Context/UserStorageData.json"),
 };
-console.log("---2");
 
 const linkLibraries = ({ bytecode, linkReferences }, libraries) => {
   Object.keys(linkReferences).forEach((fileName) => {
@@ -39,40 +37,37 @@ const linkLibraries = ({ bytecode, linkReferences }, libraries) => {
   return bytecode;
 };
 
-console.log("---3");
-
 async function main() {
   const [owner] = await ethers.getSigners();
 
-  let Weth = new ContractFactory(
+  const Weth = new ContractFactory(
     artifacts.WETH9.abi,
     artifacts.WETH9.bytecode,
     owner
   );
   let weth = await Weth.deploy();
 
-  let Factory = new ContractFactory(
+  const Factory = new ContractFactory(
     artifacts.UniswapV3Factory.abi,
     artifacts.UniswapV3Factory.bytecode,
     owner
   );
   let factory = await Factory.deploy();
 
-  let SwapRouter = new ContractFactory(
+  const SwapRouter = new ContractFactory(
     artifacts.SwapRouter.abi,
     artifacts.SwapRouter.bytecode,
     owner
   );
   let swapRouter = await SwapRouter.deploy(factory.address, weth.address);
 
-  let NFTDescriptor = new ContractFactory(
+  const NFTDescriptor = new ContractFactory(
     artifacts.NFTDescriptor.abi,
     artifacts.NFTDescriptor.bytecode,
     owner
   );
   let nftDescriptor = await NFTDescriptor.deploy();
-  console.log("---4");
-  const linkedBytecode = linkLibraries(
+  const LinkedBytecode = linkLibraries(
     {
       bytecode: artifacts.NonfungibleTokenPositionDescriptor.bytecode,
       linkReferences: {
@@ -91,20 +86,20 @@ async function main() {
     }
   );
 
-  let NonfungibleTokenPositionDescriptor = new ContractFactory(
+  const NonfungibleTokenPositionDescriptor = new ContractFactory(
     artifacts.NonfungibleTokenPositionDescriptor.abi,
-    linkedBytecode,
+    LinkedBytecode,
     owner
   );
 
-  const nativeCurrencyLabelBytes = utils.formatBytes32String("WETH");
+  const NativeCurrencyLabelBytes = utils.formatBytes32String("WETH");
   let nonfungibleTokenPositionDescriptor =
     await NonfungibleTokenPositionDescriptor.deploy(
       weth.address,
-      nativeCurrencyLabelBytes
+      NativeCurrencyLabelBytes
     );
 
-  let NonfungiblePositionManager = new ContractFactory(
+  const NonfungiblePositionManager = new ContractFactory(
     artifacts.NonfungiblePositionManager.abi,
     artifacts.NonfungiblePositionManager.bytecode,
     owner
@@ -114,15 +109,26 @@ async function main() {
     weth.address,
     nonfungibleTokenPositionDescriptor.address
   );
-  console.log("---56");
+
+  const StoreUserData = new ContractFactory(
+    artifacts.UserStorageData.abi,
+    artifacts.UserStorageData.bytecode,
+    owner
+  );
+
+  let storeUserData = await StoreUserData.deploy();
 
   let addresses = [
     `WETH_ADDRESS=${weth.address}`,
     `FACTORY_ADDRESS=${factory.address}`,
+    `NEXT_PUBLIC_FACTORY_ADDRESS=${factory.address}`,
     `SWAP_ROUTER_ADDRESS=${swapRouter.address}`,
     `NFT_DESCRIPTOR_ADDRESS=${nftDescriptor.address}`,
     `POSITION_DESCRIPTOR_ADDRESS=${nonfungibleTokenPositionDescriptor.address}`,
     `POSITION_MANAGER_ADDRESS=${nonfungiblePositionManager.address}`,
+    `NEXT_PUBLIC_POSITION_MANAGER_ADDRESS=${nonfungiblePositionManager.address}`,
+    `STORE_USER_DATA_ADDRESS=${storeUserData.address}`,
+    `NEXT_PUBLIC_STORE_USER_DATA_ADDRESS=${storeUserData.address}`,
   ];
   const data = addresses.join("\n");
 
@@ -131,6 +137,7 @@ async function main() {
   return writeFile(filePath, data)
     .then(() => {
       console.log("Addresses recorded.");
+      console.log(" ✅ Done");
     })
     .catch((error) => {
       console.error("Error logging addresses:", error);

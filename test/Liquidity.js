@@ -1,9 +1,11 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
+// TODO: check it and delete if not working
 const DAI = "0x6b175474e89094c44da98b954eedeac495271d0f";
 const USDC = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";
 
+// TODO: check it and delete if not working
 const DAI_WHALE = "0x28C6c06298d514Db089934071355E5743bf21d60";
 const USDC_WHALE = "0x28C6c06298d514Db089934071355E5743bf21d60";
 

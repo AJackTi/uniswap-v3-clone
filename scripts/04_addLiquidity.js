@@ -1,15 +1,15 @@
 require("dotenv").config();
 
-let TETHER_ADDRESS = process.env.TETHER_ADDRESS;
-let USDC_ADDRESS = process.env.USDC_ADDRESS;
-let WRAPPED_BITCOIN_ADDRESS = process.env.WRAPPED_BITCOIN_ADDRESS;
-let WETH_ADDRESS = process.env.WETH_ADDRESS;
-let FACTORY_ADDRESS = process.env.FACTORY_ADDRESS;
-let SWAP_ROUTER_ADDRESS = process.env.SWAP_ROUTER_ADDRESS;
-let NFT_DESCRIPTOR_ADDRESS = process.env.NFT_DESCRIPTOR_ADDRESS;
-let POSITION_DESCRIPTOR_ADDRESS = process.env.POSITION_DESCRIPTOR_ADDRESS;
-let POSITION_MANAGER_ADDRESS = process.env.POSITION_MANAGER_ADDRESS;
-let USDT_USDC_500 = process.env.USDT_USDC_500;
+const TETHER_ADDRESS = process.env.TETHER_ADDRESS;
+const USDC_ADDRESS = process.env.USDC_ADDRESS;
+const WRAPPED_BITCOIN_ADDRESS = process.env.WRAPPED_BITCOIN_ADDRESS;
+const WETH_ADDRESS = process.env.WETH_ADDRESS;
+const FACTORY_ADDRESS = process.env.FACTORY_ADDRESS;
+const SWAP_ROUTER_ADDRESS = process.env.SWAP_ROUTER_ADDRESS;
+const NFT_DESCRIPTOR_ADDRESS = process.env.NFT_DESCRIPTOR_ADDRESS;
+const POSITION_DESCRIPTOR_ADDRESS = process.env.POSITION_DESCRIPTOR_ADDRESS;
+const POSITION_MANAGER_ADDRESS = process.env.POSITION_MANAGER_ADDRESS;
+const USDT_USDC_500 = process.env.USDT_USDC_500;
 
 const artifacts = {
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
@@ -119,6 +119,8 @@ async function main() {
     .connect(signer2)
     .mint(params, { gasLimit: "1000000" });
   await tx.wait();
+
+  console.log(" ✅ Done");
 }
 
 /*

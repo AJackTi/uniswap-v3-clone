@@ -1,6 +1,6 @@
-const { expect } = require("chai");
 const { ethers } = require("hardhat");
 
+// TODO: check it and delete if not working
 const WETH9 = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
 const DAI = "0x6b175474e89094c44da98b954eedeac495271d0f";
 const USDC = "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48";

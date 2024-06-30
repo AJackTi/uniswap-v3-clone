@@ -130,17 +130,6 @@ async function main() {
   );
 }
 
-/**
- *
- *
-WETHAddress =  0x721d8077771Ebf9B931733986d619aceea412a1C
-factoryAddress =  0x38c76A767d45Fc390160449948aF80569E2C4217
-swapRouterAddress =  0xDC57724Ea354ec925BaFfCA0cCf8A1248a8E5CF1
-nftDescriptorAddress =  0xfc073209b7936A771F77F63D42019a3a93311869
-nonfungibleTokenPositionDescriptorAddress =  0xb4e9A5BC64DC07f890367F72941403EEd7faDCbB
-nonfungiblePositionManagerAddress =  0xa8d297D643a11cE83b432e87eEBce6bee0fd2bAb
- */
-
 main()
   .then(() => process.exit(0))
   .catch((error) => {
