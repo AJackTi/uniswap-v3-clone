@@ -3,7 +3,7 @@
 Install uniswap-v3-clone with yarn
 
 ```bash
-  get clone git@github.com:AJackTi/uniswap-v3-clone.git && cd uniswap-v3-clone
+  git clone git@github.com:AJackTi/uniswap-v3-clone.git && cd uniswap-v3-clone
   yarn
 ```
 
