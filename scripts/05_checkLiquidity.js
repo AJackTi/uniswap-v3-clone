@@ -1,5 +1,5 @@
 require("dotenv").config();
-USDT_USDC_500 = process.env.USDT_USDC_500;
+const USDT_USDC_500 = process.env.USDT_USDC_500;
 //
 const { Contract } = require("ethers");
 const UniswapV3Pool = require("@uniswap/v3-core/artifacts/contracts/UniswapV3Pool.sol/UniswapV3Pool.json");

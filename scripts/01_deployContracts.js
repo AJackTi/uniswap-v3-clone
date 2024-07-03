@@ -12,6 +12,7 @@ const artifacts = {
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
   WETH9,
   UserStorageData: require("../Context/UserStorageData.json"),
+  SingleSwapToken: require("../Context/SingleSwapToken.json"),
 };
 
 const linkLibraries = ({ bytecode, linkReferences }, libraries) => {
@@ -118,8 +119,14 @@ async function main() {
 
   let storeUserData = await StoreUserData.deploy();
 
+  const SingleSwapToken = await ethers.getContractFactory("SingleSwapToken");
+  let singleSwapToken = await SingleSwapToken.deploy();
+
+  await singleSwapToken.deployed();
+
   let addresses = [
     `WETH_ADDRESS=${weth.address}`,
+    `NEXT_PUBLIC_WETH_ADDRESS=${weth.address}`,
     `FACTORY_ADDRESS=${factory.address}`,
     `NEXT_PUBLIC_FACTORY_ADDRESS=${factory.address}`,
     `SWAP_ROUTER_ADDRESS=${swapRouter.address}`,
@@ -129,6 +136,8 @@ async function main() {
     `NEXT_PUBLIC_POSITION_MANAGER_ADDRESS=${nonfungiblePositionManager.address}`,
     `STORE_USER_DATA_ADDRESS=${storeUserData.address}`,
     `NEXT_PUBLIC_STORE_USER_DATA_ADDRESS=${storeUserData.address}`,
+    `SINGLE_SWAP_TOKEN_ADDRESS=${singleSwapToken.address}`,
+    `NEXT_PUBLIC_SINGLE_SWAP_TOKEN_ADDRESS=${singleSwapToken.address}`,
   ];
   const data = addresses.join("\n");
 

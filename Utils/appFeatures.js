@@ -117,18 +117,18 @@ export const connectingWithSingleSwapToken = async () => {
 
 //FETCHING CONTRACT------------------------
 
-//IWTH TOKEN FETCHING
-export const fetchIWTHContract = (signerOrProvider) =>
+//IWETH TOKEN FETCHING
+export const fetchIWETHContract = (signerOrProvider) =>
   new ethers.Contract(IWETHAddress, IWETHABI, signerOrProvider);
 
 //CONNECTING With SingleSwapToken TOKEN CONTRACT
-export const connectingWithIWTHToken = async () => {
+export const connectingWithIWETHToken = async () => {
   try {
     const web3modal = new Web3Modal();
     const connection = await web3modal.connect();
     const provider = new ethers.providers.Web3Provider(connection);
     const signer = provider.getSigner();
-    const contract = fetchIWTHContract(signer);
+    const contract = fetchIWETHContract(signer);
     return contract;
   } catch (error) {
     console.log(error);
@@ -138,7 +138,7 @@ export const connectingWithIWTHToken = async () => {
 //FETCHING CONTRACT------------------------
 
 // TODO: check it and delete if not working
-//IWTH TOKEN FETCHING
+// IWETH TOKEN FETCHING
 const DAIAddress = "0x6B175474E89094C44Da98b954EedeAC495271d0F";
 export const fetchDAIContract = (signerOrProvider) =>
   new ethers.Contract(DAIAddress, IWETHABI, signerOrProvider);
@@ -160,7 +160,7 @@ export const connectingWithDAIToken = async () => {
 //USER CONTRACT CONNECTION---------
 export const fetchUserStorageContract = (signerOrProvider) =>
   new ethers.Contract(
-    userStorageDataAddrss,
+    UserStorageDataAddress,
     userStorageDataABI,
     signerOrProvider
   );

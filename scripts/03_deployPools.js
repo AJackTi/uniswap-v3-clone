@@ -64,8 +64,8 @@ async function deployPool(token0, token1, fee, price) {
 
 async function main() {
   const usdtUsdc500 = await deployPool(
-    USDC_ADDRESS,
     TETHER_ADDRESS,
+    USDC_ADDRESS,
     500,
     encodePriceSqrt(1, 1)
   );

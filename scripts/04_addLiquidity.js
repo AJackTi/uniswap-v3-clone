@@ -92,8 +92,8 @@ async function main() {
     position.mintAmounts;
 
   let params = {
-    token0: USDC_ADDRESS,
-    token1: TETHER_ADDRESS,
+    token0: TETHER_ADDRESS,
+    token1: USDC_ADDRESS,
     fee: poolData.fee,
     tickLower:
       nearestUsableTick(poolData.tick, poolData.tickSpacing) -
