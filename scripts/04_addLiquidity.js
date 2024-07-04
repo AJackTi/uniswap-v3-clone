@@ -40,7 +40,7 @@ async function getPoolData(poolContract) {
 }
 
 async function main() {
-  const [_owner, signer2] = await ethers.getSigners();
+  const [_owner, signer] = await ethers.getSigners();
   const provider = ethers.provider;
 
   const usdtContract = new Contract(
@@ -51,10 +51,10 @@ async function main() {
   const usdcContract = new Contract(USDC_ADDRESS, artifacts.Usdc.abi, provider);
 
   await usdtContract
-    .connect(signer2)
+    .connect(signer)
     .approve(POSITION_MANAGER_ADDRESS, ethers.utils.parseEther("1000"));
   await usdcContract
-    .connect(signer2)
+    .connect(signer)
     .approve(POSITION_MANAGER_ADDRESS, ethers.utils.parseEther("1000"));
 
   const poolContract = new Contract(
@@ -105,7 +105,7 @@ async function main() {
     amount1Desired: amount1Desired.toString(),
     amount0Min: 0,
     amount1Min: 0,
-    recipient: signer2.address,
+    recipient: signer.address,
     deadline: Math.floor(Date.now() / 1000) + 60 * 10,
   };
 
@@ -116,7 +116,7 @@ async function main() {
   );
 
   const tx = await nonfungiblePositionManager
-    .connect(signer2)
+    .connect(signer)
     .mint(params, { gasLimit: "1000000" });
   await tx.wait();
 

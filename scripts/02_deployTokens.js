@@ -2,7 +2,7 @@ const fs = require("fs");
 const { promisify } = require("util");
 //
 async function main() {
-  const [owner, signer2] = await ethers.getSigners();
+  const [owner, signer] = await ethers.getSigners();
 
   const Tether = await ethers.getContractFactory("Tether", owner);
   const tether = await Tether.deploy();
@@ -18,13 +18,13 @@ async function main() {
 
   await tether
     .connect(owner)
-    .mint(signer2.address, ethers.utils.parseEther("100000"));
+    .mint(signer.address, ethers.utils.parseEther("100000"));
   await usdc
     .connect(owner)
-    .mint(signer2.address, ethers.utils.parseEther("100000"));
+    .mint(signer.address, ethers.utils.parseEther("100000"));
   await wrappedBitcoin
     .connect(owner)
-    .mint(signer2.address, ethers.utils.parseEther("100000"));
+    .mint(signer.address, ethers.utils.parseEther("100000"));
 
   let addresses = [
     `USDC_ADDRESS=${usdc.address}`,
@@ -36,7 +36,7 @@ async function main() {
   ];
   const data = "\n" + addresses.join("\n");
 
-  // tether.connect(owner).balanceOf(signer2.address);
+  // tether.connect(owner).balanceOf(signer.address);
 
   const writeFile = promisify(fs.appendFile);
   const filePath = ".env";

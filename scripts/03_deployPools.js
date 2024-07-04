@@ -9,10 +9,12 @@ const SWAP_ROUTER_ADDRESS = process.env.SWAP_ROUTER_ADDRESS;
 const NFT_DESCRIPTOR_ADDRESS = process.env.NFT_DESCRIPTOR_ADDRESS;
 const POSITION_DESCRIPTOR_ADDRESS = process.env.POSITION_DESCRIPTOR_ADDRESS;
 const POSITION_MANAGER_ADDRESS = process.env.POSITION_MANAGER_ADDRESS;
+const STORE_USER_DATA_ADDRESS = process.env.STORE_USER_DATA_ADDRESS;
 
 const artifacts = {
   UniswapV3Factory: require("@uniswap/v3-core/artifacts/contracts/UniswapV3Factory.sol/UniswapV3Factory.json"),
   NonfungiblePositionManager: require("@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json"),
+  UserStorageData: require("../Context/UserStorageData.json"),
 };
 
 const { Contract, BigNumber } = require("ethers");
@@ -62,6 +64,25 @@ async function deployPool(token0, token1, fee, price) {
   return poolAddress;
 }
 
+async function addPool({ tokenAddress0, tokenAddress1, poolAddress }) {
+  const [owner] = await ethers.getSigners();
+
+  // ADD DATA
+  const userStorageData = new ethers.Contract(
+    STORE_USER_DATA_ADDRESS,
+    artifacts.UserStorageData.abi,
+    owner
+  );
+  console.log("userStorageData", userStorageData);
+
+  const userLiquidity = await userStorageData.addToBlockchain(
+    poolAddress,
+    tokenAddress0,
+    tokenAddress1
+  );
+  console.log("userLiquidity", userLiquidity);
+}
+
 async function main() {
   const usdtUsdc500 = await deployPool(
     TETHER_ADDRESS,
@@ -69,6 +90,12 @@ async function main() {
     500,
     encodePriceSqrt(1, 1)
   );
+
+  await addPool({
+    tokenAddress0: TETHER_ADDRESS,
+    tokenAddress1: USDC_ADDRESS,
+    poolAddress: usdtUsdc500,
+  });
 
   let addresses = [`USDT_USDC_500=${usdtUsdc500}`];
   const data = "\n" + addresses.join("\n");

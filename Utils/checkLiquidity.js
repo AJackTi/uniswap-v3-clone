@@ -36,8 +36,8 @@ async function getPoolData(poolContract, tokenAddress1, tokenAddress2) {
   const connection = await web3modal.connect();
   const provider = new ethers.providers.Web3Provider(connection);
 
-  const token0Contract = new Contract(tokenAddress1, ERC20, provider);
-  const token1Contract = new Contract(tokenAddress2, ERC20, provider);
+  const token0Contract = new Contract(tokenAddress1, ERC20.abi, provider);
+  const token1Contract = new Contract(tokenAddress2, ERC20.abi, provider);
 
   const { chainId } = await provider.getNetwork();
 

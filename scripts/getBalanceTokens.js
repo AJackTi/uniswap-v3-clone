@@ -10,15 +10,15 @@ const artifacts = {
 };
 
 async function main() {
-  const [_owner, signer2] = await ethers.getSigners();
+  const [_owner, signer] = await ethers.getSigners();
   const provider = ethers.provider;
 
-  console.log("Signer: ", signer2.address);
+  console.log("Signer: ", signer.address);
 
   const usdcContract = new Contract(USDC_ADDRESS, artifacts.Usdc.abi, provider);
   const usdcBalanceOf = await usdcContract
-    .connect(signer2)
-    .balanceOf(signer2.address);
+    .connect(signer)
+    .balanceOf(signer.address);
 
   const usdtContract = new Contract(
     TETHER_ADDRESS,
@@ -26,8 +26,8 @@ async function main() {
     provider
   );
   const usdtBalanceOf = await usdtContract
-    .connect(signer2)
-    .balanceOf(signer2.address);
+    .connect(signer)
+    .balanceOf(signer.address);
 
   const wBtcContract = new Contract(
     WRAPPED_BITCOIN_ADDRESS,
@@ -35,8 +35,8 @@ async function main() {
     provider
   );
   const wBtcBalanceOf = await wBtcContract
-    .connect(signer2)
-    .balanceOf(signer2.address);
+    .connect(signer)
+    .balanceOf(signer.address);
 
   console.log(
     "USDC Balance: ",
